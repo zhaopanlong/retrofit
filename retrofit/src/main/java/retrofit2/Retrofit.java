@@ -128,7 +128,9 @@ public final class Retrofit {
    */
   @SuppressWarnings("unchecked") // Single-interface proxy creation guarded by parameter safety.
   public <T> T create(final Class<T> service) {
-    Utils.validateServiceInterface(service);
+    if (!service.isInterface()) {
+      throw new IllegalArgumentException("API declarations must be interfaces.");
+    }
     if (validateEagerly) {
       eagerlyValidateMethods(service);
     }

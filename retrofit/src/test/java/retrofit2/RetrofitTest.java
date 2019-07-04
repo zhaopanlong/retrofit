@@ -129,16 +129,16 @@ public final class RetrofitTest {
     assertThat(example.toString()).isNotEmpty();
   }
 
-  @Test public void interfaceWithExtendIsNotSupported() {
+  @Test public void interfaceWithExtendIsNotSupported() throws IOException {
     Retrofit retrofit = new Retrofit.Builder()
         .baseUrl(server.url("/"))
         .build();
-    try {
-      retrofit.create(Extending.class);
-      fail();
-    } catch (IllegalArgumentException e) {
-      assertThat(e).hasMessage("API interfaces must not extend other interfaces.");
-    }
+
+    server.enqueue(new MockResponse().setBody("Hi"));
+
+    Extending extending = retrofit.create(Extending.class);
+    String result = extending.getResponseBody().execute().body().string();
+    assertEquals("Hi", result);
   }
 
   @Test public void cloneSharesStatefulInstances() {
