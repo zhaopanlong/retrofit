@@ -522,10 +522,6 @@ public final class Retrofit {
      */
     public Builder baseUrl(HttpUrl baseUrl) {
       checkNotNull(baseUrl, "baseUrl == null");
-      List<String> pathSegments = baseUrl.pathSegments();
-      if (!"".equals(pathSegments.get(pathSegments.size() - 1))) {
-        throw new IllegalArgumentException("baseUrl must end in /: " + baseUrl);
-      }
       this.baseUrl = baseUrl;
       return this;
     }
